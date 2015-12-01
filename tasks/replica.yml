@@ -1,0 +1,22 @@
+---
+- set_fact: replica_name={{ ansible_fqdn }}
+
+- shell: creates=/var/lib/ipa/replica-info-{{ replica_name }}.gpg ipa-replica-prepare -p {{ directory_admin_password }} {{ replica_name }}
+  delegate_to: "{{ freeipa_master }}"
+  no_log: True
+
+# synchronize do not work, as it requires a direct ssh connexion between
+# the 2 server, with proper ssh setup and rsync
+# use base64, since transmitting binary over jinja might cause trouble
+- shell: base64 /var/lib/ipa/replica-info-{{ replica_name }}.gpg
+  register: replica_info
+  delegate_to: "{{ freeipa_master }}"
+
+- set_fact: replica_file=/root/replica-info-{{ replica_name }}.gpg
+
+- copy: dest={{ replica_file + '.base64' }} content="{{ replica_info.stdout }}"
+
+- shell: creates={{ replica_file }} base64 -d {{ replica_file }}.base64 > {{ replica_file }}
+
+- shell: creates=/etc/ipa/default.conf ipa-replica-install -U -p {{ directory_admin_password }}  -w {{ kerberos_admin_password }} {{ replica_file }}
+  no_log: True

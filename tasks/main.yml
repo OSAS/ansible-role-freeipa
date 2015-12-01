@@ -1,0 +1,15 @@
+---
+- fail: msg="Cannot use freeipa if there is no master set"
+  when: freeipa_master is not defined
+
+- fail: msg="Cannot use freeipa role if there is no kerberos admin password set"
+  when: kerberos_admin_password is not defined
+
+- fail: msg="Cannot use freeipa if there is no ldap admin password set"
+  when: directory_admin_password is not defined
+
+- include: client.yml
+  when: ansible_fqdn != freeipa_master and ansible_fqdn not in freeipa_replicas 
+
+- include: server.yml
+  when: ansible_fqdn == freeipa_master or ansible_fqdn in freeipa_replicas 

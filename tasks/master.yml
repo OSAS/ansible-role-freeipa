@@ -1,0 +1,7 @@
+---
+- shell: creates=/etc/ipa/default.conf ipa-server-install -r {{ ansible_domain | upper }} -n {{ ansible_domain }} -p {{ directory_admin_password }}  -U -a {{ kerberos_admin_password }} --ip-address {{ ansible_default_ipv4.address }}
+  no_log: True
+
+# TODO requires EL 7.2
+#- firewalld: service=freeipa-replication permanent=true state=enabled immediate=yes
+#  when: "(ansible_distribution == 'Fedora' or ansible_distribution_major_version == '7') and {{ freeipa_replicas |length }} > 0" 

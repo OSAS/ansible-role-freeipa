@@ -1,0 +1,15 @@
+- yum: name=ipa-server state=installed
+
+# do not use ldaps, since current freeipa cannot register when there is only ldaps
+# port open
+# requires EL 7.2
+#- firewalld: service=freeipa-ldap permanent=true state=enabled immediate=yes
+#  when: ansible_distribution == 'Fedora' or ansible_distribution_major_version == '7'
+
+- include: master.yml
+  when: ansible_fqdn == freeipa_master 
+
+- include: replica.yml
+  when: ansible_fqdn in freeipa_replicas 
+
+# TODO make backups
