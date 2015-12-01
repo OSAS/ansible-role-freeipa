@@ -9,7 +9,7 @@
   when: directory_admin_password is not defined
 
 - include: client.yml
-  when: ansible_fqdn != freeipa_master and ansible_fqdn not in freeipa_replicas 
+  when: ansible_fqdn != freeipa_master and ansible_fqdn not in freeipa_replicas
 
 - include: server.yml
-  when: ansible_fqdn == freeipa_master or ansible_fqdn in freeipa_replicas 
+  when: ansible_fqdn == freeipa_master or ansible_fqdn in freeipa_replicas

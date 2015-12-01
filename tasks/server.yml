@@ -7,9 +7,9 @@
 #  when: ansible_distribution == 'Fedora' or ansible_distribution_major_version == '7'
 
 - include: master.yml
-  when: ansible_fqdn == freeipa_master 
+  when: ansible_fqdn == freeipa_master
 
 - include: replica.yml
-  when: ansible_fqdn in freeipa_replicas 
+  when: ansible_fqdn in freeipa_replicas
 
 # TODO make backups
