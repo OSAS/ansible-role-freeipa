@@ -11,6 +11,7 @@
 - shell: base64 /var/lib/ipa/replica-info-{{ replica_name }}.gpg
   register: replica_info
   delegate_to: "{{ freeipa_master }}"
+  changed_when: False
 
 - set_fact: replica_file=/root/replica-info-{{ replica_name }}.gpg
 
