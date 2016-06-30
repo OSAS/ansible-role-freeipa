@@ -43,7 +43,7 @@ One example playbook to use this would be this:
   - role: freeipa
     freeipa_master: freeipa.example.org
     freeipa_replicas:
-    - freeipa-slave01.example.org
+    - freeipa-replica01.example.org
 ```
 
 # Distribution support
