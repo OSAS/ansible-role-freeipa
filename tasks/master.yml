@@ -1,5 +1,8 @@
 ---
-- shell: creates=/etc/ipa/default.conf ipa-server-install -r {{ ansible_domain | upper }} -n {{ ansible_domain }} -p {{ directory_admin_password }}  -U -a {{ kerberos_admin_password }} --ip-address {{ ansible_default_ipv4.address }}
+- name: Install the master server
+  shell: ipa-server-install -r {{ ansible_domain | upper }} -n {{ ansible_domain }} -p {{ directory_admin_password }}  -U -a {{ kerberos_admin_password }} --ip-address {{ ansible_default_ipv4.address }}
+  args:
+    creates: /etc/ipa/default.conf
   no_log: True
 
 # TODO requires EL 7.2

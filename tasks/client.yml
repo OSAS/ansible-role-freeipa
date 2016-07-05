@@ -1,14 +1,27 @@
 ---
-- yum: state=installed name=freeipa-client
+- name: Install packages (Fedora)
+  package:
+    state: present
+    name: freeipa-client
   when: ansible_distribution == 'Fedora'
 
-- yum: state=installed name=ipa-client
+- name: Install packages (Centos/RHEL)
+  package:
+    state: present
+    name: ipa-client
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
 
 - fail: msg="Cannot register to freeipa if the domain is not detected"
   when: ansible_domain is not defined
 
-- shell: creates=/etc/ipa/default.conf ipa-client-install --domain={{ ansible_domain }} --server={{ freeipa_master }} -p admin  -U -w {{ kerberos_admin_password }}
+- name: Install the client in the realm
+  shell: ipa-client-install --domain={{ freeipa_domain |default(ansible_domain) }} --server={{ freeipa_master }} -p admin  -U -w {{ kerberos_admin_password }}
+  args:
+    creates: /etc/ipa/default.conf
   no_log: True
 
-- service: name=certmonger enabled=yes state=started
+- name: Start certmonger
+  service:
+    name: certmonger
+    enabled: yes
+    state: started

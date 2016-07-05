@@ -1,9 +1,17 @@
-- yum: name=ipa-server state=installed
+- name: Install packages for the server
+  package:
+    name: ipa-server
+    state: present
 
 # do not use ldaps, since current freeipa cannot register when there is only ldaps
 # port open
 # requires EL 7.2
-- firewalld: service=freeipa-ldap permanent=true state=enabled immediate=yes
+- name: Open the firewall
+  firewalld:
+    service: freeipa-ldap
+    permanent: true
+    state: enabled
+    immediate: yes
   when: ansible_distribution == 'Fedora' or ansible_distribution_major_version == '7'
 
 - include: master.yml
