@@ -25,7 +25,7 @@
 
 - name: Copy the base64 file
   copy:
-    dest: {{ replica_file + '.base64' }}
+    dest: "{{ replica_file + '.base64' }}"
     content: "{{ replica_info.stdout }}"
 
 - name: Decode the base64 file
