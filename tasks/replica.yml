@@ -31,7 +31,7 @@
 - name: Decode the base64 file
   shell: base64 -d {{ replica_file }}.base64 > {{ replica_file }}
   args:
-    create: "{{ replica_file }}"
+    creates: "{{ replica_file }}"
 
 - name: Install the replica
   shell: ipa-replica-install -U -p {{ directory_admin_password }}  -w {{ kerberos_admin_password }} {{ replica_file }}
