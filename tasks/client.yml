@@ -15,7 +15,7 @@
   when: ansible_domain is not defined
 
 - name: Install the client in the realm
-  shell: ipa-client-install --domain={{ freeipa_domain |default(ansible_domain) }} --server={{ freeipa_master }} -p admin  -U -w {{ kerberos_admin_password }}
+  shell: ipa-client-install --domain={{ freeipa_domain }} --server={{ freeipa_master }} -p admin  -U -w {{ kerberos_admin_password }}
   args:
     creates: /etc/ipa/default.conf
   no_log: True

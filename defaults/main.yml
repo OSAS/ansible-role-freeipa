@@ -1,3 +1,4 @@
 ---
 #  
 freeipa_replicas: []
+freeipa_domain: "{{ ansible_domain }}"
